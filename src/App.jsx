@@ -3,6 +3,7 @@ import { Route, Routes, useRoutes } from 'react-router-dom'
 import GameLayout from './layout/GameLayout'
 import PanelLayout from './layout/PanelLayout'
 import Inicio from './views/Inicio'
+import AgregarProblema from './views/panel/AgregarProblema'
 import Panel from './views/panel/Panel'
 
 function App() {
@@ -25,6 +26,10 @@ function App() {
         {
           path: '/panel',
           element: <Panel />
+        },
+        {
+          path: 'agregar-problema',
+          element: <AgregarProblema />
         }
       ]
     }
