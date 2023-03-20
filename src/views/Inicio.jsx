@@ -1,6 +1,37 @@
 import React from 'react'
 import * as PIXI from 'pixi.js'
+import { Howl, Howler } from 'howler';
 
+var sound = new Howl({
+  src: ['../src/assets/music/pista1.mp3'],
+  volume: 0.4,
+  autoplay: true,
+  loop: true
+})
+
+var select = new Howl({
+  src:['../assets/soundeffects/button.mp3'],
+  volume: 0.5
+})
+
+
+
+  const playSong = () =>{
+    sound.stop();
+    sound.play();
+  }
+
+  const muteSong =()=>{
+    if(sound.mute()==false){
+      sound.mute(true);
+    }else{
+      sound.mute(false);
+    }
+  }
+
+  const buttonSound = ()=>{
+    select.play();
+  }
 
 const Inicio = () => {
   //Application: screen declaration
@@ -12,6 +43,51 @@ const Inicio = () => {
   background.width = app.screen.width;
   background.height = app.screen.height;
   app.stage.addChild(background)
+  
+  //mediap player images
+  const play = PIXI.Texture.from('../src/assets/buttonplay2.png');
+  const buttonplay = new PIXI.Sprite(play);
+  buttonplay.buttonMode = true;
+  buttonplay.anchor.set(0.4);
+  buttonplay.x = 20;
+  buttonplay.y = 20;
+  buttonplay.height = 45;
+  buttonplay.width = 45;
+
+  buttonplay.interactive = true;
+  buttonplay.cursor = 'pointer';
+  buttonplay.buttonMode = true;
+
+  const mute = PIXI.Texture.from('../src/assets/buttonpause.png');
+  const buttonMute = new PIXI.Sprite(mute);
+  buttonMute.buttonMode = true;
+  buttonMute.anchor.set(0.5);
+  buttonMute.x = 75;
+  buttonMute.y = 25;
+  
+  buttonMute.height = 35;
+  buttonMute.width = 35;
+
+  buttonMute.interactive = true;
+  buttonMute.cursor = 'pointer';
+  buttonMute.buttonMode = true;
+
+  
+  buttonplay.addEventListener("click", () => {
+  
+    playSong();
+  });
+
+  buttonMute.addEventListener("click", () => {
+    muteSong();
+  });
+  
+
+  app.stage.addChild(buttonplay);
+  app.stage.addChild(buttonMute);
+
+
+ 
   //Image: person image 
   const texture = PIXI.Texture.from('../src/assets/sprite.png',{width: '300px', height: '300px'});
   const imageDemo = new PIXI.Sprite(texture);
@@ -47,6 +123,7 @@ const Inicio = () => {
   app.stage.addChild(layer)
   //Text layer: Answer 1
   const layer2 = new PIXI.Graphics();
+
   layer2.lineStyle(2, 0x303030, 1);
   layer2.beginFill(0xffffff);
   layer2.drawRect(600, 520, 200, 50);
@@ -171,9 +248,7 @@ const Inicio = () => {
     })
   })
   // return (
-  //   <div>
-      
-  //   </div>
+    
   // )
 }
 
