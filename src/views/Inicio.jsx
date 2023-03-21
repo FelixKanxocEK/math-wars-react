@@ -3,15 +3,30 @@ import * as PIXI from 'pixi.js'
 import { Howl, Howler } from 'howler';
 
 var sound = new Howl({
-  src: ['../src/assets/music/pista1.mp3'],
-  volume: 0.4,
+  src: ['../src/assets/music/fight1.ogg'],
+  volume: 0.5,
   autoplay: true,
   loop: true
 })
 
-var select = new Howl({
-  src:['../assets/soundeffects/button.mp3'],
+var mov = new Howl({
+  src:['../src/assets/soundeffects/mov.mp3'],
   volume: 0.5
+})
+
+var select = new Howl({
+  src:['../src/assets/soundeffects/button.mp3'],
+  volume: 0.5
+})
+
+var correct = new Howl({
+  src:['../src/assets/soundeffects/correct.mp3'],
+  volume: 0.5
+})
+
+var wrong = new Howl({
+  src:['../src/assets/soundeffects/wrong.mp3'],
+  voulme: 0.5
 })
 
 
@@ -29,8 +44,21 @@ var select = new Howl({
     }
   }
 
+  const movSound = () =>{
+    mov.play();
+  }
+
+
   const buttonSound = ()=>{
     select.play();
+  }
+
+  const correctChoice = ()=>{
+    correct.play();
+  }
+
+  const wrongChoice = ()=>{
+    wrong.play();
   }
 
 const Inicio = () => {
@@ -44,7 +72,7 @@ const Inicio = () => {
   background.height = app.screen.height;
   app.stage.addChild(background)
   
-  //mediap player images
+  //mediap player images & buttons
   const play = PIXI.Texture.from('../src/assets/buttonplay2.png');
   const buttonplay = new PIXI.Sprite(play);
   buttonplay.buttonMode = true;
@@ -72,22 +100,18 @@ const Inicio = () => {
   buttonMute.cursor = 'pointer';
   buttonMute.buttonMode = true;
 
-  
+  // Player buttons events
   buttonplay.addEventListener("click", () => {
-  
     playSong();
   });
 
   buttonMute.addEventListener("click", () => {
     muteSong();
   });
-  
 
   app.stage.addChild(buttonplay);
   app.stage.addChild(buttonMute);
 
-
- 
   //Image: person image 
   const texture = PIXI.Texture.from('../src/assets/Shot_1.png');
   const imageDemo = new PIXI.Sprite(texture);
@@ -113,18 +137,45 @@ const Inicio = () => {
   
   //Text layer: Answer 1
   const layer2 = new PIXI.Graphics();
+  const subLayer = new PIXI.Graphics();
+  const subLayer2 = new PIXI.Graphics();
 
   layer2.lineStyle(2, 0x303030, 1);
   layer2.beginFill(0xffffff);
   layer2.drawRect(600, 520, 200, 50);
   layer2.endFill();
+  layer2.cursor = 'pointer';
+
+  subLayer.lineStyle(2, 0x303030, 1);
+  subLayer.beginFill(0xffffff);
+  subLayer.drawRect(300, 225, 100, 25);
+  subLayer.endFill();
+
+  subLayer2.lineStyle(2, 0x303030, 1);
+  subLayer2.beginFill(0xffffff);
+  subLayer2.drawRect(300, 300, 100, 25);
+  subLayer2.endFill();
+  
+
   //Button state: first answer
   layer2.interactive = true
-  layer2.on('click', function(){
-    console.log('hola')
-  })
-  // layer2.on('pointerdown', onClick1 )
 
+  layer2.onmouseover = function(){
+    movSound();
+  }
+
+  layer2.on('click', function(){
+    buttonSound();
+     
+      if(layer2){
+        const correctAnswer = 0
+        if(correctAnswer === 0){
+          app.stage.addChild(subLayer);
+          app.stage.addChild(textCorrect)
+          correctChoice();
+        }
+      }
+    })
   app.stage.addChild(layer2)
   
 
@@ -134,10 +185,26 @@ const Inicio = () => {
   layer3.beginFill(0xffffff);
   layer3.drawRect(600, 590, 200, 50);
   layer3.endFill();
+  layer3.cursor = 'pointer';
   //Button state: second answer
   layer3.interactive = true;
+
+  layer3.onmouseover = function(){
+    movSound();
+  }
+
+
   layer3.on('click', function(){
-    console.log('hola')
+    buttonSound();
+    if(layer3){
+      const wrongAnswer = 1
+      if(wrongAnswer === 1){
+        app.stage.addChild(subLayer2);
+        app.stage.addChild(textWrong)
+  
+        wrongChoice();
+      }
+    }
   })
 
   app.stage.addChild(layer3)
@@ -147,10 +214,25 @@ const Inicio = () => {
   layer4.beginFill(0xffffff);
   layer4.drawRect(600, 660, 200, 50);
   layer4.endFill();
+  layer4.cursor = 'pointer';
   //Button state: third answer
   layer4.interactive = true;
+
+  layer4.onmouseover = function(){
+    movSound();
+  }
+
   layer4.on('click', function(){
-    console.log('hola');
+    buttonSound();
+
+    if(layer4){
+      
+      app.stage.removeChild(subLayer2);
+      app.stage.removeChild(textWrong)
+      // // subLayer2.interactive = true
+      // // correctChoice();
+    }
+   
   })
 
   app.stage.addChild(layer4)
@@ -175,6 +257,16 @@ const Inicio = () => {
   textAnswer3.x = 610;
   textAnswer3.y = 670;
   app.stage.addChild(textAnswer3)
+  //Text: Correct
+  const textCorrect = new PIXI.Text('Correcto')
+  textCorrect.x = 300;
+  textCorrect.y = 225;
+  
+  //Text: Wrong 
+  const textWrong = new PIXI.Text('Incorrecto')
+  textWrong.x = 300;
+  textWrong.y = 300;
+  
   //Style text
   const styleText = new PIXI.TextStyle({
     fontSize: 25,
@@ -185,6 +277,8 @@ const Inicio = () => {
     dropShadowBlur: 6,
     dropShadowAngle: 21
   })
+
+
   //panel
   const panel1F = new PIXI.Graphics();
   app.stage.addChild(panel1F)
