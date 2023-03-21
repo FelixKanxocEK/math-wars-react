@@ -96,7 +96,7 @@ const AgregarProblema = () => {
                 Swal.fire({
                     position: 'top-end',
                     icon: 'error',
-                    title: response.data.msg,
+                    title: error.response.data.msg,
                     showConfirmButton: false,
                     timer: 1500
                 });
