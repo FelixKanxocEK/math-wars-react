@@ -5,7 +5,7 @@ import { Howl, Howler } from 'howler';
 var sound = new Howl({
   src: ['../src/assets/music/fight1.ogg'],
   volume: 0.5,
-  autoplay: true,
+  autoplay: false,
   loop: true
 })
 
