@@ -5,7 +5,7 @@ import { Howl, Howler } from 'howler';
 var sound = new Howl({
   src: ['../src/assets/music/fight1.ogg'],
   volume: 0.5,
-  autoplay: true,
+  autoplay: false,
   loop: true
 })
 
@@ -63,7 +63,7 @@ var wrong = new Howl({
 
 const Inicio = () => {
   //Application: screen declaration
-  const app = new PIXI.Application({ width: 1280, height: 740 });
+  const app = new PIXI.Application({resizeTo: window, antialias: true, autoDensity: true });
   //Screen app: Screen Scene base
   document.body.appendChild(app.view);
   //background scene
@@ -115,10 +115,11 @@ const Inicio = () => {
   //Image: person image 
   const texture = PIXI.Texture.from('../src/assets/Shot_1.png');
   const imageDemo = new PIXI.Sprite(texture);
-  imageDemo.width = 200
-  imageDemo.height = 200
-  imageDemo.x = app.screen.height / 5.7;
-  imageDemo.y = app.screen.width / 3.7;
+  
+  imageDemo.width = app.screen.width / 6
+  imageDemo.height = app.screen.height / 4
+  imageDemo.x = app.screen.height / 5;
+  imageDemo.y = app.screen.width / 4;
   imageDemo.interactive = true
   //Button state by the first character
   imageDemo.on('click', function(){
@@ -299,8 +300,8 @@ const Inicio = () => {
 
   //Name by the first Character
   const nameCharacter = new PIXI.Text('Name: Javi', styleText);
-  nameCharacter.x = 150;
-  nameCharacter.y = 65;
+  nameCharacter.x = app.screen.height / 5;
+  nameCharacter.y = app.screen.width / 22;
   app.stage.addChild(nameCharacter)
 
   //healthBar 1: first character
@@ -325,27 +326,34 @@ const Inicio = () => {
   const container1 = PIXI.Texture.from('../src/assets/heart.png');
   const heartIcon = new PIXI.Sprite(container1);
   heartIcon.x = app.screen.height / 6.5;
-  heartIcon.y = app.screen.width / 13;
-  heartIcon.height = 25;
-  heartIcon.width = 30;
+  heartIcon.y = app.screen.width / 16;
+  heartIcon.height = app.screen.height / 30;
+  heartIcon.width = app.screen.width / 50;
   app.stage.addChild(heartIcon)
 
   //General panel by the first character
   const panel = new PIXI.Graphics();
   app.stage.addChild(panel);
 
-  //Bar Panel 
+  //Bar Panel: General settings 
+  //panel1: size
+  const widhtPanel = app.screen.width / 1.31;
+  const heightPanel = app.screen.height / 12;
+  //first panel
   const panelBar = new PIXI.Graphics();
   panelBar.lineStyle(4, 0x303030, 3);
   panelBar.beginFill(0xab7f42);
-  panelBar.drawRect(910, 60, 250, 80);
+  panelBar.drawRect(widhtPanel, heightPanel, 250, 80);
   panelBar.endFill();
   panel.addChild(panelBar)
+  //panel2: size
+  const widhtPanel2 = app.screen.width / 1.322;
+  const heightPanel2 = app.screen.height / 14.5;
   //second panel
   const secondPanel = new PIXI.Graphics();
   secondPanel.lineStyle(4, 0x303030, 3);
   secondPanel.beginFill(0xab7f42);
-  secondPanel.drawRect(900, 50, 250, 80);
+  secondPanel.drawRect(widhtPanel2, heightPanel2, 250, 80);
   secondPanel.endFill();
   panel.addChild(secondPanel)
 
@@ -362,8 +370,8 @@ const Inicio = () => {
 
   //name for the second Character
   const secondName = new PIXI.Text('Name: Maikol', styleName);
-  secondName.x = 960;
-  secondName.y = 65;
+  secondName.x = app.screen.width / 1.28;
+  secondName.y = app.screen.height / 11;
   app.stage.addChild(secondName)
 
   //health bar: second character
@@ -371,25 +379,29 @@ const Inicio = () => {
   app.stage.addChild(healthBar2);
 
   //line for health bar
+  const widthHealth  = app.screen.width / 1.271;
+  const heightHealth = app.screen.height / 7.5;
   const linestyle2 = new PIXI.Graphics();
   linestyle2.lineStyle(2, 0x232323, 1);
   linestyle2.beginFill(0x808080)
-  linestyle2.drawRect(960, 100, 150, 20);
+  linestyle2.drawRect(widthHealth, heightHealth, 150, 20);
   healthBar2.addChild(linestyle2)
   //red bar 2
+  const widthRed = app.screen.width / 1.270;
+  const heightRed = app.screen.height / 7.4;
   const redBar2 = new PIXI.Graphics();
   redBar2.beginFill(0xFF3300);
-  redBar2.drawRect(961, 100.5, 100, 18)
+  redBar2.drawRect(widthRed, heightRed, 100, 18)
   redBar2.endFill();
   healthBar2.addChild(redBar2)
 
   //heart Icon 2
   const container2 = PIXI.Texture.from('../src/assets/heart.png');
   const heartIcon2 = new PIXI.Sprite(container2);
-  heartIcon2.x = app.screen.height / 0.80;
-  heartIcon2.y = app.screen.width / 13;
-  heartIcon2.height = 25;
-  heartIcon2.width = 30;
+  heartIcon2.x = app.screen.height / 0.677;
+  heartIcon2.y = app.screen.width / 16;
+  heartIcon2.height = app.screen.height / 30;
+  heartIcon2.width = app.screen.width /  50;
   app.stage.addChild(heartIcon2)
 
   //life icon
@@ -410,6 +422,8 @@ const Inicio = () => {
 
     const anim = new PIXI.AnimatedSprite(frames);
 
+    anim.width = app.screen.width / 6
+    anim.height = app.screen.height / 4
     anim.x = app.screen.width / 1.23;
     anim.y = app.screen.height / 1.6;
     anim.anchor.set(0.5);
