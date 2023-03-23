@@ -2,12 +2,17 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Header from '../../components/panel/Header';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2';
+import { MathJax, MathJaxContext } from 'better-react-mathjax';
+import { convertCharCode } from '../../helpers/ResetOptions';
 
 const Panel = () => {
   const [problemas, setProblemas] = useState([]);
   const [imagenes, setImagenes] = useState([]);
+  const [charCode, setCharCode] = useState(97);
+
+  axios.defaults.headers.common['ngrok-skip-browser-warning'] = 'any value';
 
   useEffect(() => {
     getProblemas();
@@ -15,18 +20,25 @@ const Panel = () => {
 
   const getProblemas = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND}/panel`);
+      const url = `${import.meta.env.VITE_BACKEND}/panel`;
+
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND}/panel`, {
+        headers: {
+          'Access-Control-Allow-Origin': `${import.meta.env.VITE_BACKEND}`,
+          'Access-Control-Allow-Headers': '*',
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache',
+          'Access-Control-Allow-Credentials': true,
+          'Access-Control-Allow-Methods': 'GET',
+          'Accept': 'application/json, */*',
+        }
+      });
+
       const problemasArray = [];
       if (response.status == 200) {
         let newArray = [];
         response.data.data.map(problema => {
-          const problemasSplit = problema.imagenes.path.split(',');
-          problemasSplit.forEach((prob, key) => {
-            const newProblem = prob.replace('["', '').replace('"', '').replace('"]', '').replace('"', '').replace(/\\\\/g, '/');
-            newArray.push(newProblem)
-          });
-          problemasArray.push({ ...problemas, id: problema.id, planteamiento: problema.planteamiento, imagenes: newArray, respuesta: problema.opcion })
-          newArray = [];
+          problemasArray.push({ ...problemas, id: problema.id, planteamiento: problema.planteamiento, opciones: JSON.parse(problema.respuestas), respuesta: problema.opcion })
         })
         setProblemas(problemasArray);
       }
@@ -93,15 +105,23 @@ const Panel = () => {
                   onClick={() => eliminarProblema(problema.id)}
                 />
               </div>
-              <div className="w-full md:flex gap-2 items-center justify-between mt-3">
-                {problema.imagenes.map((imagen, key) => (
+              <div className="w-full md:flex gap-2 items-center justify-between mt-3 flex-wrap">
+                {problema.opciones.map((opcion, key) => (
                   <div key={key} className='my-3 md:my-0'>
-                    <img src={`${import.meta.env.VITE_BACKEND}/${imagen}`} alt="imagen" width={300} />
+                    <MathJaxContext>
+                      <div className='flex items-center'>
+                        <span className='font-bold mr-3'>
+                          {`${convertCharCode(charCode + key)})`}
+                        </span>
+                        <MathJax className='my-5 mx-auto'>{opcion != '' ? `\\(${opcion}\\)` : ''}</MathJax>
+                      </div>
+                    </MathJaxContext>
+                    {/* <img src={`${import.meta.env.VITE_BACKEND}/${imagen}`} alt="imagen" width={300} loading='lazy' /> */}
                   </div>
                 ))}
               </div>
               <div className='mt-3 font-bold'>
-                Respuesta Correcta: <span className='font-normal'>{problema.respuesta + 1}</span>
+                Respuesta Correcta: <span className='font-normal'>{convertCharCode(charCode + problema.respuesta)}</span>
               </div>
             </div>
           ))}
