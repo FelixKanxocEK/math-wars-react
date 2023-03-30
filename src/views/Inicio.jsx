@@ -2,12 +2,19 @@ import React from 'react'
 import * as PIXI from 'pixi.js'
 import { Howl, Howler } from 'howler';
 
+
+
+Howler.autoUnlock = false;
 var sound = new Howl({
   src: ['../src/assets/music/fight1.ogg'],
-  volume: 0.5,
   autoplay: false,
+  volume: 0.5,
   loop: true
 })
+
+
+
+
 
 var mov = new Howl({
   src:['../src/assets/soundeffects/mov.mp3'],
@@ -437,3 +444,4 @@ const Inicio = () => {
 }
 
 export default Inicio
+
