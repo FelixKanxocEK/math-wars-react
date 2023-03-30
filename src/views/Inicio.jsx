@@ -1,10 +1,14 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import * as PIXI from 'pixi.js'
 import { Howl, Howler } from 'howler';
+import scene1 from '../assets/scenes/scene1-Bg.jpeg'
+import scene2 from '../assets/scenes/scene2-Bg.jpeg'
+import scene3 from '../assets/scenes/Scene3_Bg.jpeg'
+import { useState } from 'react';
 
 var sound = new Howl({
   src: ['../src/assets/music/fight1.ogg'],
-  volume: 0.5,
+  volume: 0.5,  
   autoplay: false,
   loop: true
 })
@@ -62,12 +66,21 @@ var wrong = new Howl({
   }
 
 const Inicio = () => {
+  const scenes = [scene1, scene2, scene3];
   //Application: screen declaration
   const app = new PIXI.Application({resizeTo: window, antialias: true, autoDensity: true });
   //Screen app: Screen Scene base
   document.body.appendChild(app.view);
+
+  //random
+  function randomScenes(max){
+    const random = Math.floor(Math.random() * max )
+    console.log(random);
+    return scenes[random];
+   }
+   
   //background scene
-  const background = PIXI.Sprite.from('../src/assets/Scene3_Bg.jpeg')
+  const background = PIXI.Sprite.from(randomScenes(3));
   background.width = app.screen.width;
   background.height = app.screen.height;
   app.stage.addChild(background)
@@ -405,6 +418,9 @@ const Inicio = () => {
   redBar2.beginFill(0xFF3300);
   redBar2.drawRect(widthRed, heightRed, widthBarRed, heightBarRed)
   redBar2.endFill();
+  redBar2.on('click', function(){
+    console.log('welcome');
+  })
   healthBar2.addChild(redBar2)
 
   //heart Icon 2
@@ -425,10 +441,6 @@ const Inicio = () => {
   imageSecond.width = 300
   imageSecond.height = 300
   app.stage.addChild(imageSecond)
-
-  
-
-  
 
   //Image jet: Json file 
   // PIXI.Assets.load('../src/assets/characters/fighter.json').then(() => {
