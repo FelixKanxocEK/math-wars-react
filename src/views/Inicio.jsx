@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import * as PIXI from 'pixi.js'
 import { Howl, Howler } from 'howler';
 import scene1 from '../assets/scenes/scene1-Bg.jpeg'
-import scene2 from '../assets/scenes/scene2-Bg.jpeg'
+import scene2 from '../assets/scenes/scene4.jpeg'
 import scene3 from '../assets/scenes/Scene3_Bg.jpeg'
 import { useState } from 'react';
 
