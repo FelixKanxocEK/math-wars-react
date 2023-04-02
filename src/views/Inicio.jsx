@@ -6,12 +6,20 @@ import scene2 from '../assets/scenes/scene4.jpeg'
 import scene3 from '../assets/scenes/Scene3_Bg.jpeg'
 import { useState } from 'react';
 
+
+
+Howler.autoUnlock = false;
 var sound = new Howl({
   src: ['../src/assets/music/fight1.ogg'],
   volume: 0.5,  
   autoplay: false,
+  volume: 0.5,
   loop: true
 })
+
+
+
+
 
 var mov = new Howl({
   src:['../src/assets/soundeffects/mov.mp3'],
@@ -483,3 +491,4 @@ const Inicio = () => {
 }
 
 export default Inicio
+
