@@ -20,6 +20,7 @@ const playStart = () =>{
 }
 
 
+
 const PantallaInicio =()=>{
     //Application: screen declaration
     const app = new PIXI.Application({
