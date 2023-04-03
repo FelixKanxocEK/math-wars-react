@@ -6,7 +6,8 @@ import StartScreen from './layout/StartScreen'
 import Inicio from './views/Inicio'
 import AgregarProblema from './views/panel/AgregarProblema'
 import Panel from './views/panel/Panel'
-import PantallaInicio from './views/PantallaInicio'
+import PantallaInicio2 from './views/PantallaInicio'
+import Inicio2 from './views/inicio2'
 
 
 
@@ -20,6 +21,10 @@ function App() {
         {
           path: '/',
           element: <Inicio />
+        },
+        {
+          path: '/inicio2',
+          element: <Inicio2 />
         }
       ]
     },
@@ -43,7 +48,7 @@ function App() {
       children: [
         {
           path: '/pantallainicio',
-          element: <PantallaInicio/>
+          element: <PantallaInicio2 />
         }
       ]
       
